@@ -248,7 +248,7 @@
       methods: {
         onSubmit() {
           console.log('submit!')
-    },
+        },
         handleChange(value) {
           console.log(value)
         },
@@ -307,11 +307,11 @@
       },
       onSubmit() {
         console.log('submit!')
-    }
+      }
     }
 </script>
 
-<style scoped lang="scss">
+<style scoped >
 
     .avatar-uploader .el-upload {
         border: 1px dashed #b7dfc3;

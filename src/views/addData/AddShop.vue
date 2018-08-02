@@ -94,7 +94,7 @@
                         </el-option>
                     </el-select>
                     <el-dialog
-                            title="提示"
+                            title="添加活动"
                             :visible.sync="dialogVisible"
                             width="30%"
                     >
@@ -247,7 +247,14 @@
   },
       methods: {
         onSubmit() {
-          console.log('submit!')
+          this.$refs['form'].validate(valid => {
+            if (valid) {
+              console.log('submit!')
+            } else {
+              console.log('error')
+              return false
+            }
+          })
         },
         handleChange(value) {
           console.log(value)
@@ -296,6 +303,7 @@
           activityObj.activityDetails = this.addd
           this.form.favourableData.push(activityObj)
           this.dialogVisible = false
+          this.addd = ''
         },
         getClass(value) {
           this.ad = value
@@ -304,39 +312,35 @@
         deleteRow(index, rows) {
           rows.splice(index, 1)
         }
-      },
-      onSubmit() {
-        console.log('submit!')
-    }
+      }
     }
 </script>
 
-<style scoped lang="scss">
+<style scoped >
+.avatar-uploader >>> .el-upload {
+  border: 1px dashed #b7dfc3;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 
-    .avatar-uploader .el-upload {
-        border: 1px dashed #b7dfc3;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
 
-    .avatar-uploader .el-upload:hover {
-        border-color: #409EFF;
-    }
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
 
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
-        text-align: center;
-    }
-
-    .avatar {
-        width: 178px;
-        height: 178px;
-        display: block;
-    }
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>

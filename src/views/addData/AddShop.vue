@@ -8,8 +8,16 @@
                 <el-form-item label="联系电话" prop="tel">
                     <el-input v-model="form.tel"></el-input>
                 </el-form-item>
-                <el-form-item label="详细地址">
-                    <el-input v-model="form.addr" placeholder="请输入地址"></el-input>
+                <el-form-item label="详细地址" prop="addr">
+                    <el-autocomplete
+                            class="inline-input"
+                            v-model="form.addr"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                    ></el-autocomplete>
+                    <br>
+                    当前地址: 哈尔滨
                 </el-form-item>
                 <el-form-item label="店铺简介">
                     <el-input v-model="form.introduction"></el-input>
@@ -238,11 +246,15 @@
                   callback(errors)
                 }
               }
+            ],
+            addr: [
+              {required: true, message: '请输入详细地址', trigger: 'blur'}
             ]
           },
           dialogVisible: false,
           ad: '',
-          addd: ''
+          addd: '',
+          restaurants: []
         }
   },
       methods: {
@@ -311,6 +323,33 @@
         },
         deleteRow(index, rows) {
           rows.splice(index, 1)
+        },
+        getMap() {
+          this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.addr}&region=全国&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, { credentials: true })
+            .then((result) => {
+              console.log('ok')
+              this.restaurants = result.body.result
+            })
+        },
+        querySearch(queryString, cb) {
+          var restaurants = [{}]
+          this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.addr}&region=哈尔滨&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, { credentials: true })
+            .then((results) => {
+              for (const item of results.body.result) {
+                item.value = item.name
+              }
+              // console.log(result.body + 'qwe')
+              restaurants = results.body.result
+              cb(restaurants)
+              // console.log(restaurants)
+            })
+          // var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+          // cb(restaurants.result)
+        },
+        createFilter(queryString) {
+          return (restaurant) => {
+            return (restaurant.value.indexOf(queryString) !== -1)
+          }
         }
       }
     }

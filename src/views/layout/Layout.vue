@@ -1,9 +1,11 @@
 <template>
     <div class="app-wrapper">
-        <sidebar class="left"></sidebar>
-        <div class="main-container">
-          <app-main></app-main>
-        </div>
+        <el-aside>
+          <sidebar class="left"></sidebar>
+        </el-aside>
+        <el-container>
+          <router-view></router-view>
+        </el-container>
     </div>
 </template>
 
@@ -19,13 +21,4 @@ export default {
 </script>
 
 <style scoped>
-.app-wrapper {
-  display: table;
-  position: relative;
-  width: 70%;
-  background-color: #94fd4e;
-}
-.left {
-  width: 30%;
-}
 </style>

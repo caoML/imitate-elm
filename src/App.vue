@@ -15,16 +15,19 @@
                             <span>adddata</span>
                         </template>
                         <el-menu-item-group>
-                            <template slot="title">分组一</template>
                             <el-menu-item index="/adddata/addshop"  >添加店铺</el-menu-item>
                             <el-menu-item index="/adddata/addgoods"  >添加商品</el-menu-item>
                         </el-menu-item-group>
-
                     </el-submenu>
-                    <el-menu-item index="2">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">导航二</span>
-                    </el-menu-item>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            <span>图表</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="/chart/userDistribution"  >用户分布</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
                     <el-menu-item index="3" disabled>
                         <i class="el-icon-document"></i>
                         <span slot="title">导航三</span>

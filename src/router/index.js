@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import AddShop from '@/views/addData/AddShop.vue'
 import AddGoods from '@/views/addData/AddGoods.vue'
+import userDistribution from '@/views/charts/userDistribution.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,10 @@ export default new Router({
     {
       path: '/adddata/addgoods',
       component: AddGoods
+    },
+    {
+      path: '/chart/userDistribution',
+      component: userDistribution
     }
   ]
 })

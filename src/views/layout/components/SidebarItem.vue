@@ -6,6 +6,7 @@
                 <!-- <svg-icon v-if="item&&item.meta.icon" :icon-class="item.meta.icon"></svg-icon> -->
                 <span v-if="item&&item.meta.title" slot="title">{{item.meta.title}}</span>
               </template>
+              <el-menu-item-group>
               <template v-for="child in item.children" v-if="item.children">
                 <!-- <router-link :to="item.path+'/'+child.path" :key="child.name"> -->
                   <el-menu-item :index="item.path+'/'+child.path">
@@ -14,6 +15,7 @@
                   </el-menu-item>
                 <!-- </router-link> -->
               </template>
+              </el-menu-item-group>
             </el-submenu>
         </template>
     </div>

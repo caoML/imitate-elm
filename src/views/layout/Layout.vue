@@ -1,21 +1,25 @@
 <template>
     <div class="app-wrapper">
-        <el-aside>
+        <el-container>
+          <el-aside>
           <sidebar class="left"></sidebar>
         </el-aside>
         <el-container>
-          <router-view></router-view>
+          <el-main>
+            <router-view></router-view>
+          </el-main>
+        </el-container>
         </el-container>
     </div>
 </template>
 
 <script>
 import Sidebar from './components'
-import AppMain from './components/AppMain'
+// import AppMain from './components/AppMain'
 export default {
   components: {
-    Sidebar,
-    AppMain
+    Sidebar
+    // AppMain
   }
 }
 </script>

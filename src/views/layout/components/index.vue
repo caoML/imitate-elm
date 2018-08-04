@@ -2,6 +2,7 @@
     <div>
         <el-menu
           mode="vertical"
+          :router="true"
           :show-timeout="200"
           :default-active="$route.path"
           text-color="black"

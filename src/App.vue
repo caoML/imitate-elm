@@ -56,26 +56,27 @@
 </script>
 
 <style scoped>
-    .el-header, .el-footer {
-        background-color: #B3C0D1;
-        color: #333;
-        text-align: center;
-        line-height: 60px;
-    }
+.el-header,
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
 
-    .el-aside {
-        background-color: #D3DCE6;
-        color: #333;
-        text-align: center;
-        line-height: 260px;
-    }
+.el-aside {
+  background-color: #d3dce6;
+  color: #333;
+  text-align: center;
+  line-height: 260px;
+}
 
-    .el-main {
-        color: #333;
-        line-height: 160px;
-    }
+.el-main {
+  color: #333;
+  line-height: 160px;
+}
 
-    .el-container {
-        margin-bottom: 40px;
-    }
+.el-container {
+  margin-bottom: 40px;
+}
 </style>

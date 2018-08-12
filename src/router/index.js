@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/views/layout/Layout'
+import home from '@/views/home'
+import manage from '@/views/data/manage'
 import customer from '@/views/data/customer'
 import bussiness from '@/views/data/bussiness'
 import food from '@/views/data/food'
@@ -16,28 +17,61 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
+      component: manage
+    },
+    {
+      path: '/data/bussiness',
+      name: 'bussiness',
+      component: bussiness,
+      meta: ['用户数据', '商家列表']
+    },
+    {
+      path: '/data/customer',
       name: 'layout',
-      component: Layout
+      component: customer,
+      meta: ['用户数据', '用户列表']
+    },
+    {
+      path: '/data/food',
+      component: food,
+      meta: ['用户数据', '食品列表']
+    },
+    {
+      path: '/data/order',
+      component: order,
+      meta: ['用户数据', '订单列表']
+    },
+    {
+      path: '/data/admin',
+      component: admin,
+      meta: ['用户数据', 'admin列表']
     },
     {
       path: '/data',
-      name: '/data',
+      name: 'data',
+      component: manage,
       children: [
         {
+          path: '',
+          name: 'home',
+          component: home
+        },
+        {
           path: 'customer',
-          name: 'coutomer',
+          // name: 'customer',
           component: customer,
           meta: {
-            title: 'custom',
-            icon: 'eyes'
+            title: '用户列表',
+            icon: 'eye'
           }
         },
         {
-          path: 'business',
-          name: 'business',
+          path: 'bussiness',
+          name: 'bussiness',
           component: bussiness,
           meta: {
-            title: 'custom',
+            title: '商家列表',
             icon: 'eyes'
           }
         },
@@ -46,7 +80,7 @@ export default new Router({
           name: 'food',
           component: food,
           meta: {
-            title: 'custom',
+            title: '食品列表',
             icon: 'eyes'
           }
         },
@@ -55,7 +89,7 @@ export default new Router({
           name: 'order',
           component: order,
           meta: {
-            title: 'custom',
+            title: '订单列表',
             icon: 'eyes'
           }
         },
@@ -64,18 +98,18 @@ export default new Router({
           name: 'admin',
           component: admin,
           meta: {
-            title: 'custom',
+            title: '管理员列表',
             icon: 'eyes'
           }
         }
       ],
       meta: {
-        icon: 'eye',
+        icon: 'document',
         title: '用户数据'
       }
     },
     {
-      path: 'add',
+      path: '/add',
       name: 'add',
       children: [
         {
@@ -98,25 +132,9 @@ export default new Router({
         }
       ],
       meta: {
-        title: '添加',
-        icon: 'eye'
+        title: '添加数据',
+        icon: 'plus'
       }
     }
   ]
 })
-
-// import Vue from 'vue'
-// import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
-
-// Vue.use(Router)
-
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'HelloWorld',
-//       component: HelloWorld
-//     }
-//   ]
-// })

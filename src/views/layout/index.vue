@@ -5,7 +5,7 @@
           :router="true"
           :show-timeout="200"
           :default-active="$route.path"
-          text-color="black"
+          class="el-menu-vertical-demo"
           active-text-color="#00d3ee"
         >
           <sidebar-item></sidebar-item>
@@ -20,5 +20,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>

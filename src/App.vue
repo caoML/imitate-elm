@@ -1,15 +1,33 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <el-container>
+          <el-aside width="200px">
+            <sidebar class="left"></sidebar>
+          </el-aside>
+          <el-container>
+            <el-header>
+              <my-header></my-header>
+            </el-header>
+            <el-main>
+              <keep-alive>
+                <router-view></router-view>  
+              </keep-alive>  
+            </el-main>
+          </el-container>
+      </el-container>
   </div>
 </template>
 
 <script>
+import Sidebar from '@/views/layout'
+import MyHeader from '@/components/Header'
 export default {
-  name: 'App'
+  components: {
+    Sidebar,
+    MyHeader
+  }
 }
 </script>
-
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -17,6 +35,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+body {
+  padding: 0px;
+  margin: 0px;
 }
 </style>

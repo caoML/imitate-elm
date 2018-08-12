@@ -1,7 +1,5 @@
 <template>
-    <section>
-        <router-view></router-view>
-    </section>
+    <div>我是首页</div>
 </template>
 
 <script>

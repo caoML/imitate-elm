@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="all">
     <el-table v-loading="loading" element-loading-text="加载中..." v-if="!tableInfo.collapse" :data="tableData" style="width:100%">
         <el-table-column label="序号" type="index" align="center" :index="indexMethod"></el-table-column>
         <el-table-column align="center" v-for="item in tableInfo.columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
         </el-table-column>
     </el-table>
-    <el-table v-loading="loading" element-loading-text="加载中..." v-else-if="tableInfo.collapse" :data="tableData">
+    <el-table v-loading="loading" style="width:100%" element-loading-text="加载中..." v-else-if="tableInfo.collapse" :data="tableData">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -101,6 +101,9 @@ export default {
 </script>
 
 <style scoped>
+.all >>> .el-table__expanded-cell {
+  box-shadow: inset 0 2px 0 #f4f4f4;
+}
 .demo-table-expand {
   font-size: 0;
 }
@@ -112,5 +115,9 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+  text-align: left;
+}
+.el-form-item__label {
+  text-align: left;
 }
 </style>

@@ -42,19 +42,19 @@ export default {
   background-color: #1f2d3d;
 }
 .title {
-  color: white;
+  color: #bfcbd9;
 }
 .menu-wrap >>> .el-menu-item-group__title {
   padding: 0px;
 }
-.menu-wrap .el-menu-item.is-active {
-  background-color: #999392;
-}
+/* .menu-wrap >>> .is-active {
+  color: #20a0ff;
+} */
 .menu-wrap .el-menu-item:hover {
   background-color: black;
   border: none;
 }
 .menu-wrap >>> .el-submenu__title:hover {
-  background-color: black;
+  color: #20a0ff;
 }
 </style>

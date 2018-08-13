@@ -1,12 +1,11 @@
 <template>
 <div>
-    <bussiness :tableData="tableData" :tableInfo="tableInfo" ></bussiness>
+    <bussiness :tableInfo="tableInfo" ></bussiness>
 </div>
 </template>
 
 <script>
 import Bussiness from '@/components/Table'
-import http from '@/api'
 export default {
   components: {Bussiness},
   data() {
@@ -26,26 +25,17 @@ export default {
         name: '店铺名称',
         address: '店铺地址',
         introduce: '店铺介绍'
-      }
+      },
+      requests: [
+        {type: 'get', funcName: 'getBussinessList'},
+        {type: 'put', funcName: 'updateBussiness'},
+        {type: 'post', funcName: 'addFood'},
+        {type: 'delete', funcName: 'deleteBussiness'}
+      ]
     }
     return {
-      tableData: [],
       tableInfo
     }
-  },
-  methods: {
-    async fetchList() {
-      try {
-        await http.getBussinessList().then((res) => {
-          this.tableData = res.data.bussinessList
-        })
-      } catch (error) {
-        return
-      }
-    }
-  },
-  mounted() {
-    this.fetchList()
   }
 }
 </script>

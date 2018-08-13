@@ -1,12 +1,11 @@
 <template>
     <div>
-        <admin-table :tableInfo="tableInfo" :tableData="tableData"></admin-table>
+        <admin-table :tableInfo="tableInfo"></admin-table>
     </div>
 </template>
 
 <script>
 import AdminTable from '@/components/Table'
-import http from '@/api'
 export default {
   components: {AdminTable},
   data() {
@@ -23,26 +22,14 @@ export default {
         date: '注册日期',
         address: '地址',
         promise: '权限'
-      }
+      },
+      requests: [
+        {type: 'get', funcName: 'getAdminList'}
+      ]
     }
     return {
-      tableInfo,
-      tableData: []
+      tableInfo
     }
-  },
-  methods: {
-    async fetchList() {
-      try {
-        http.getAdminList().then((res) => {
-          this.tableData = res.data.adminList
-        })
-      } catch (error) {
-        return
-      }
-    }
-  },
-  mounted() {
-    this.fetchList()
   }
 }
 </script>

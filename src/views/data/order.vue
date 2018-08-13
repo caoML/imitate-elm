@@ -1,59 +1,37 @@
 <template>
     <div>
-        <order-table :tableData="tableData" :tableInfo="tableInfo"></order-table>
+        <order-table :tableInfo="tableInfo"></order-table>
     </div>
 </template>
 
 <script>
 import OrderTable from '@/components/Table'
-const table = [
-  {
-    number: 1,
-    name: 'cml',
-    address: 'we',
-    date: '1234-12-12'
-  },
-  {
-    number: 2,
-    name: 'cml',
-    address: 'we',
-    date: '1234-12-12'
-  },
-  {
-    number: 3,
-    name: 'cml',
-    address: 'we',
-    date: '1234-12-12'
-  },
-  {
-    number: 4,
-    name: 'cml',
-    address: 'we',
-    date: '1234-12-12'
-  }
-]
 export default {
   components: {OrderTable},
   data() {
     const tableInfo = {
-      collapse: false,
+      collapse: true,
       columns: [
-        {prop: 'number'},
-        {prop: 'name'},
-        {prop: 'address'},
-        {prop: 'date'}
+        {prop: 'id'},
+        {prop: 'price'},
+        {prop: 'state'}
       ],
       maps: {
-        number: '序号',
-        name: '注册姓名',
-        address: '注册地址',
-        date: '注册日期'
-      }
+        id: '订单ID',
+        price: '总价格',
+        state: '订单状态',
+        name: '用户名',
+        storeName: '店铺名称',
+        storeId: '店铺ID',
+        storeAddress: '店铺地址',
+        address: '收货地址'
+      },
+      requests: [
+        {type: 'get', funcName: 'getOrderList'}
+      ]
     }
-    const tableData = table
     return {
-      tableInfo,
-      tableData
+      tableInfo
     }
   }
 }

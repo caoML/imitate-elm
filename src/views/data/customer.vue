@@ -1,12 +1,12 @@
 <template>
   <div>
-    <customer :tableData="tableData" :tableInfo='tableInfo'></customer>
+    <customer :tableInfo='tableInfo'></customer>
   </div>
 </template>
 
 <script>
 import Customer from '@/components/Table'
-import http from '@/api'
+// import http from '@/api'
 export default {
   components: {Customer},
   data() {
@@ -21,27 +21,29 @@ export default {
         name: '店铺名称',
         address: '店铺地址',
         date: '店铺成立日期'
-      }
+      },
+      requests: [
+        {type: 'get', funcName: 'getCustomerList'}
+      ]
     }
     return {
-      tableData: [],
       tableInfo
     }
-  },
-  methods: {
-    async fetchList() {
-      try {
-        await http.getCustomerList().then((res) => {
-          this.tableData = res.data.tableData
-        })
-      } catch (error) {
-        return
-      }
-    }
-  },
-  mounted() {
-    this.fetchList()
   }
+  // methods: {
+  //   async fetchList() {
+  //     try {
+  //       await http.getCustomerList().then((res) => {
+  //         this.tableData = res.data.tableData
+  //       })
+  //     } catch (error) {
+  //       return
+  //     }
+  //   }
+  // },
+  // mounted() {
+  //   this.fetchList()
+  // }
 }
 </script>
 

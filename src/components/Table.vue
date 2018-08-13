@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-table v-if="!tableInfo.collapse" :data="tableData" style="width:100%">
+    <el-table v-loading="loading" element-loading-text="加载中..." v-if="!tableInfo.collapse" :data="tableData" style="width:100%">
         <el-table-column label="序号" type="index" align="center" :index="indexMethod"></el-table-column>
         <el-table-column align="center" v-for="item in tableInfo.columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
         </el-table-column>
     </el-table>
-    <el-table v-else-if="tableInfo.collapse" :data="tableData">
+    <el-table v-loading="loading" element-loading-text="加载中..." v-else-if="tableInfo.collapse" :data="tableData">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -14,7 +14,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" v-for="(item,index) in tableInfo.columns" :key="index" :label="getLabel(item.prop)" :prop="item.prop"></el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" v-if="editMethod()||addMethod()||deleteMethod()" label="操作">
         <template slot-scope="scope">
           <el-button size="mini" v-if="editMethod()">编辑</el-button>
           <el-button size="mini" v-if="addMethod()">添加</el-button>
@@ -26,16 +26,16 @@
 </template>
 
 <script>
+import http from '@/api'
 export default {
   props: {
-    tableData: Array,
-    tableInfo: Object,
-    requests: Array
+    tableInfo: Object
   },
   data() {
-    const infoKey = Object.keys(this.tableData[0])
     return {
-      infoKey
+      infoKey: [],
+      tableData: [],
+      loading: true
     }
   },
   // compouted: {
@@ -58,15 +58,19 @@ export default {
       return this.tableInfo.maps[item]
     },
     mapEntity(type) {
-      return this.requests.find(request =>
+      return this.tableInfo.requests.find(request =>
         request.type === type
       )
     },
     mapName(type) {
       const method = this.mapEntity(type)
-      return method && method.funcName
+      return method && method.funcName // 使用&&代替if，代码更好看
+    },
+    getterMethod() {
+      return this.mapName('get')
     },
     editMethod() {
+      console.log(this.mapName('put'))
       return this.mapName('put')
     },
     addMethod() {
@@ -74,7 +78,24 @@ export default {
     },
     deleteMethod() {
       return this.mapName('delete')
+    },
+    async handleGet() {
+      try {
+        // this.mapEntity('get')
+        let table
+        await http[this.getterMethod()]().then(data => {
+          table = data.data.list
+        }
+        )
+        this.tableData = table
+        this.infoKey = this.tableInfo.collapse && Object.keys(this.tableData[0])
+      } finally {
+        this.loading = false
+      }
     }
+  },
+  mounted() {
+    this.handleGet()
   }
 }
 </script>

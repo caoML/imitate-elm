@@ -1,5 +1,5 @@
 <template>
-    <food-table :tableData="tableData" :tableInfo="tableInfo" :requests="requests"></food-table>
+    <food-table :tableInfo="tableInfo"></food-table>
 </template>
 
 <script>
@@ -9,67 +9,33 @@ export default {
     FoodTable
   },
   data() {
-    const table = [{
-      id: '12987122',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      introduce: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987123',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      introduce: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987125',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      introduce: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987126',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      introduce: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }]
-    const tableData = table
     const tableInfo = {
       collapse: true,
       columns: [
-        {prop: 'name'},
-        {prop: 'address'},
-        {prop: 'introduce'}
+        {prop: 'foodName'},
+        {prop: 'desc'},
+        {prop: 'rate'}
       ],
       maps: {
-        id: '店铺ID',
-        shop: '餐馆名称',
+        foodName: '食品名称',
+        foodId: '食品ID',
+        shopName: '餐馆名称',
         shopId: '餐馆ID',
-        category: '店铺类型',
-        name: '店铺名称',
-        address: '店铺地址',
-        introduce: '店铺介绍'
-      }
+        category: '食品类型',
+        address: '餐馆地址',
+        desc: '食品介绍',
+        rate: '食品评分',
+        number: '月销量'
+      },
+      requests: [
+        {type: 'get', funcName: 'getFoodList'},
+        {type: 'put', funcName: 'updateFood'},
+        {type: 'delete', funcName: 'deleteFood'},
+        {type: 'post', funcName: 'addFood'}
+      ]
     }
-    const requests = [
-      {type: 'get', funcName: 'getGood'},
-      {type: 'put', funcName: 'updateFood'},
-      {type: 'delete', funcName: 'deleteFood'},
-      {type: 'post', funcName: 'addFood'}
-    ]
     return {
-      tableData,
-      tableInfo,
-      requests
+      tableInfo
     }
   }
 }

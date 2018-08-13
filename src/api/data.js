@@ -17,3 +17,15 @@ export function getBussinessList(data) {
     method: 'get'
   })
 }
+export function getFoodList(data) {
+  return request({
+    url: '/food',
+    method: 'get'
+  })
+}
+export function getOrderList(data) {
+  return request({
+    url: '/order',
+    method: 'get'
+  })
+}

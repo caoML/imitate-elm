@@ -1,6 +1,6 @@
 <template>
 <div>
-    <bussiness :tableData="tableData" :tableInfo="tableInfo"></bussiness>
+    <bussiness :tableData="tableData" :tableInfo="tableInfo" ></bussiness>
 </div>
 </template>
 
@@ -38,7 +38,6 @@ export default {
       try {
         await http.getBussinessList().then((res) => {
           this.tableData = res.data.bussinessList
-          console.log(this.tableData)
         })
       } catch (error) {
         return

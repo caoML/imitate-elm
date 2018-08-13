@@ -1,5 +1,5 @@
 <template>
-    <food-table :tableData="tableData" :tableInfo="tableInfo"></food-table>
+    <food-table :tableData="tableData" :tableInfo="tableInfo" :requests="requests"></food-table>
 </template>
 
 <script>
@@ -60,9 +60,16 @@ export default {
         introduce: '店铺介绍'
       }
     }
+    const requests = [
+      {type: 'get', funcName: 'getGood'},
+      {type: 'put', funcName: 'updateFood'},
+      {type: 'delete', funcName: 'deleteFood'},
+      {type: 'post', funcName: 'addFood'}
+    ]
     return {
       tableData,
-      tableInfo
+      tableInfo,
+      requests
     }
   }
 }

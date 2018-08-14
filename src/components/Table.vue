@@ -1,11 +1,11 @@
 <template>
   <div class="all">
-    <el-table v-loading="loading" element-loading-text="加载中..." v-if="!tableInfo.collapse" :data="tableData" style="width:100%">
+    <el-table v-loading="loading" element-loading-text="加载中..." v-if="!collapse" :data="tableData" style="width:100%">
         <el-table-column label="序号" type="index" align="center" :index="indexMethod"></el-table-column>
-        <el-table-column align="center" v-for="item in tableInfo.columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
+        <el-table-column align="center" v-for="item in columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
         </el-table-column>
     </el-table>
-    <el-table v-loading="loading" style="width:100%" element-loading-text="加载中..." v-else-if="tableInfo.collapse" :data="tableData">
+    <el-table v-loading="loading" style="width:100%" element-loading-text="加载中..." v-else-if="collapse" :data="tableData">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -13,12 +13,15 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column align="center" v-for="(item,index) in tableInfo.columns" :key="index" :label="getLabel(item.prop)" :prop="item.prop"></el-table-column>
-      <el-table-column align="center" v-if="editMethod()||addMethod()||deleteMethod()" label="操作">
+      <el-table-column align="center" v-for="(item,index) in columns" :key="index" :label="getLabel(item.prop)" :prop="item.prop"></el-table-column>
+      <el-table-column align="center" v-if="hasOpColumn()" label="操作">
         <template slot-scope="scope">
+          <div v-if="operations && operations.length>0" class="ops">
+            <el-button v-for="op in operations" :key="op.name" size="mini" @click="op.func(scope.$index,scope.row)">{{op.name}}</el-button>  
+          </div>
           <el-button size="mini" v-if="editMethod()">编辑</el-button>
           <el-button size="mini" v-if="addMethod()">添加</el-button>
-          <el-button size="mini" v-if="deleteMethod()" type="danger">删除</el-button>
+          <el-button size="mini" v-if="deleteMethod()" type="danger" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>   
@@ -33,6 +36,7 @@ export default {
   },
   data() {
     return {
+      ...this.tableInfo,
       infoKey: [],
       tableData: [],
       loading: true
@@ -55,10 +59,10 @@ export default {
       return index + 1
     },
     getLabel(item) {
-      return this.tableInfo.maps[item]
+      return this.maps[item]
     },
     mapEntity(type) {
-      return this.tableInfo.requests.find(request =>
+      return this.requests.find(request =>
         request.type === type
       )
     },
@@ -70,7 +74,6 @@ export default {
       return this.mapName('get')
     },
     editMethod() {
-      console.log(this.mapName('put'))
       return this.mapName('put')
     },
     addMethod() {
@@ -88,10 +91,27 @@ export default {
         }
         )
         this.tableData = table
-        this.infoKey = this.tableInfo.collapse && Object.keys(this.tableData[0])
+        this.infoKey = this.collapse && Object.keys(this.tableData[0])
       } finally {
         this.loading = false
       }
+    },
+    async handleDelete(index, item) {
+      try {
+        await this.$confirm('将永久删除该条目,是否继续', '提示', {
+          type: 'warning',
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        })
+        await http[this.deleteMethod()]()
+        this.tableData = this.tableData.filter((_, i) => i !== index)
+        this.$message.success('删除成功')
+      } catch (error) {
+        return
+      }
+    },
+    hasOpColumn() {
+      return (this.operations && this.operations.length > 0) || this.addMethod() || this.deleteMethod() || this.editMethod()
     }
   },
   mounted() {
@@ -119,5 +139,8 @@ export default {
 }
 .el-form-item__label {
   text-align: left;
+}
+.ops {
+  display: inline-block;
 }
 </style>

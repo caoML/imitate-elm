@@ -1,12 +1,23 @@
 <template>
-    <food-table :tableInfo="tableInfo"></food-table>
+    <div class="food">
+      <food-table :tableInfo="tableInfo"></food-table>
+      <el-dialog title="修改食品信息" :visible.sync="editDialog" v-if="editDialog">
+        <edit-food :editInfo="editInfo"></edit-food>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editDialog = false">取 消</el-button>
+          <el-button type="primary" @click="editDialog = false">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
 </template>
 
 <script>
 import FoodTable from '@/components/Table'
+import EditFood from './editFood'
 export default {
   components: {
-    FoodTable
+    FoodTable,
+    EditFood
   },
   data() {
     const tableInfo = {
@@ -29,17 +40,31 @@ export default {
       },
       requests: [
         {type: 'get', funcName: 'getFoodList'},
-        {type: 'put', funcName: 'updateFood'},
-        {type: 'delete', funcName: 'deleteFood'},
-        {type: 'post', funcName: 'addFood'}
+        // {type: 'put', funcName: 'updateFood'},
+        {type: 'delete', funcName: 'deleteFood'}
+        // {type: 'post', funcName: 'addFood'}
+      ],
+      operations: [
+        {name: '编辑', func: this.updateFood}
       ]
     }
     return {
-      tableInfo
+      tableInfo,
+      editDialog: false,
+      editInfo: {}
+    }
+  },
+  methods: {
+    updateFood(index, item) {
+      this.editDialog = true
+      this.editInfo = item
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.food >>> .dialog-footer {
+  text-align: center;
+}
 </style>

@@ -29,3 +29,15 @@ export function getOrderList(data) {
     method: 'get'
   })
 }
+export function deleteFood(data) {
+  return request({
+    url: '/food',
+    method: 'delete'
+  })
+}
+export function deleteBussiness(data) {
+  return request({
+    url: '/bussiness',
+    method: 'delete'
+  })
+}

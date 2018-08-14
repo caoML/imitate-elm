@@ -47,12 +47,11 @@ export default {
 .menu-wrap >>> .el-menu-item-group__title {
   padding: 0px;
 }
-/* .menu-wrap >>> .is-active {
+.menu-wrap >>> .is-active {
   color: #20a0ff;
-} */
+}
 .menu-wrap .el-menu-item:hover {
-  background-color: black;
-  border: none;
+  color: #20a0ff;
 }
 .menu-wrap >>> .el-submenu__title:hover {
   color: #20a0ff;

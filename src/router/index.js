@@ -108,6 +108,16 @@ export default new Router({
       }
     },
     {
+      path: '/add/shops',
+      component: shops,
+      meta: ['添加数据', '添加店铺']
+    },
+    {
+      path: '/add/commodity',
+      component: commodity,
+      meta: ['添加数据', '添加商品']
+    },
+    {
       path: '/add',
       name: 'add',
       children: [
@@ -116,8 +126,8 @@ export default new Router({
           name: 'shops',
           component: shops,
           meta: {
-            title: 'custom',
-            icon: 'eyes'
+            title: '添加店铺',
+            icon: '添加店铺'
           }
         },
         {
@@ -125,8 +135,8 @@ export default new Router({
           name: 'commodity',
           component: commodity,
           meta: {
-            title: 'custom',
-            icon: 'eyes'
+            title: '添加商品',
+            icon: '添加商品'
           }
         }
       ],

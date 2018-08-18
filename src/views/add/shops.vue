@@ -1,159 +1,169 @@
 <template>
-    <el-row :gutter="20">
-        <el-col :span="14" :offset="4">
-            <el-form ref="form" :model="form" label-width="110px" :rules="rules" label-position="right">
-                <el-form-item label="店铺名称" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="联系电话" prop="tel">
-                    <el-input v-model="form.tel"></el-input>
-                </el-form-item>
-                <el-form-item label="详细地址" prop="addr">
-                    <el-autocomplete
-                            class="inline-input"
-                            v-model="form.addr"
-                            :fetch-suggestions="querySearch"
-                            placeholder="请输入内容"
-                            :trigger-on-focus="false"
-                    ></el-autocomplete>
-                    <br>
-                    当前地址: 哈尔滨
-                </el-form-item>
-                <el-form-item label="店铺简介">
-                    <el-input v-model="form.introduction"></el-input>
-                </el-form-item>
-                <el-form-item label="店铺标语">
-                    <el-input v-model="form.slogan"></el-input>
-                </el-form-item>
-                <el-form-item label="店铺分类">
-                    <el-cascader
-                            :options="form.foodOptions"
-                            v-model="form.selectedOptions"
-                    >
-                    </el-cascader>
-                </el-form-item>
-                <el-form-item label="店铺特点">
-                    <span>品牌保证</span>
-                    <el-switch v-model="form.delivery"></el-switch>
-                    <span>蜂鸟专送</span>
-                    <el-switch v-model="form.fengniao"></el-switch>
-                    <span>新开店铺</span>
-                    <el-switch v-model="form.newin"></el-switch>
-                    <br>
-                    <span>外卖保</span>
-                    <el-switch v-model="form.waimaibao"></el-switch>
-                    <span>准时达</span>
-                    <el-switch v-model="form.ontime"></el-switch>
-                    <span>开发票</span>
-                    <el-switch v-model="form.bill"></el-switch>
+  <el-row :gutter="20">
+    <el-col :span="14" :offset="4">
+      <el-form ref="form" :model="form" label-width="110px" :rules="rules" label-position="right">
+        <el-form-item label="店铺名称" prop="name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话" prop="phone">
+          <el-input v-model="form.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address">
+          <el-autocomplete
+              class="inline-input"
+              v-model="form.address"
+              :fetch-suggestions="querySearch"
+              placeholder="请输入内容"
+              :trigger-on-focus="false"
+          ></el-autocomplete>
+          <br>
+          当前地址: {{form.guessLocation}}
+        </el-form-item>
+        <el-form-item label="店铺简介">
+          <el-input v-model="form.description"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺标语">
+          <el-input v-model="form.promotion_info"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺分类">
+          <el-cascader
+              :options="form.foodOptions"
+              v-model="form.category"
+          >
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="店铺特点">
+          <span>品牌保证</span>
+          <el-switch v-model="form.is_premium"></el-switch>
+          <span>蜂鸟专送</span>
+          <el-switch v-model="form.delivery_mode"></el-switch>
+          <span>新开店铺</span>
+          <el-switch v-model="form.new"></el-switch>
+          <br>
+          <span>外卖保</span>
+          <el-switch v-model="form.bao"></el-switch>
+          <span>准时达</span>
+          <el-switch v-model="form.zhun"></el-switch>
+          <span>开发票</span>
+          <el-switch v-model="form.piao"></el-switch>
 
-                </el-form-item>
-                <el-form-item label="配送费">
-                    <el-input-number
-                            v-model="form.DeliverFee"
-                            @change="handleChange"
-                            :min="1"
-                            :max="10"
-                    >
+        </el-form-item>
+        <el-form-item label="配送费">
+          <el-input-number
+              v-model="form.float_delivery_fee"
+              @change="handleChange"
+              :min="1"
+              :max="10"
+          >
 
-                    </el-input-number>
-                </el-form-item>
+          </el-input-number>
+        </el-form-item>
 
-                <el-form-item label="营业时间">
-                    <el-time-select
-                            v-model="form.starttime"
-                            :picker-options="{
+        <el-form-item label="起送价">
+          <el-input-number
+              v-model="form.float_minimum_order_amount"
+
+              :min="5"
+              :max="100"
+          >
+
+          </el-input-number>
+        </el-form-item>
+        <el-form-item label="营业时间">
+          <el-time-select
+              v-model="form.startTime"
+              :picker-options="{
                     start: '05:30',
                     step: '00:15',
                     end: '23:30'
                     }"
-                            placeholder="选择营业时间">
-                    </el-time-select>
-                    <el-time-select
-                            v-model="form.endtime"
-                            :picker-options="{
+              placeholder="选择营业时间">
+          </el-time-select>
+          <el-time-select
+              v-model="form.endtime"
+              :picker-options="{
                     start: '05:30',
                     step: '00:15',
                     end: '23:30'
                     }"
-                            placeholder="选择打烊时间">
-                    </el-time-select>
-                </el-form-item>
-                <el-form-item label="上传店铺头像">
-                    <el-upload
-                            class="avatar-uploader"
-                            :show-file-list="false"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-                        <img v-if="form.HeadImageUrl" :src="form.HeadImageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item>
-                <el-form-item label="优惠活动">
+              placeholder="选择打烊时间">
+          </el-time-select>
+        </el-form-item>
+        <el-form-item label="上传店铺头像">
+          <el-upload
+              class="avatar-uploader"
+              :show-file-list="false"
+              action="https://elm.cangdu.org/v1/addimg/:shop"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+            <img v-if="form.image_path" :src="form.image_path" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="优惠活动">
 
-                    <el-select v-model="form.favourable" placeholder="请选择" @change="getClass">
-                        <el-option
-                                v-for="item in form.favourableOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
-                        >
-                        </el-option>
-                    </el-select>
-                    <el-dialog
-                            title="添加活动"
-                            :visible.sync="dialogVisible"
-                            width="30%"
-                    >
-                        <el-input placeholder="详情" v-model="addd"></el-input>
-                        <span slot="footer" class="dialog-footer">
+          <el-select v-model="form.favourable" placeholder="请选择" @change="getClass">
+            <el-option
+                v-for="item in form.favourableOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            >
+            </el-option>
+          </el-select>
+          <el-dialog
+              title="添加活动"
+              :visible.sync="dialogVisible"
+              width="30%"
+          >
+            <el-input placeholder="详情" v-model="addd"></el-input>
+            <span slot="footer" class="dialog-footer">
                         <el-button @click="dialogVisible = false">取 消</el-button>
                         <el-button type="primary" @click="addActivity">确 定</el-button>
                     </span>
-                    </el-dialog>
-                    <el-table
-                            :data="form.favourableData"
-                            :stripe="true"
-                            border
-                            style="width: 100%">
-                        <el-table-column
-                                prop="activityTitle"
-                                label="活动标题"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="activityName"
-                                label="活动名称"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="activityDetails"
-                                label="活动详情">
-                        </el-table-column>
-                        <el-table-column
-                                fixed="right"
-                                label="操作"
-                                width="120">
-                            <template slot-scope="scope">
-                                <el-button
-                                        type="danger"
-                                        size="mini"
-                                        icon="el-icon-delete"
-                                        @click.native.prevent="deleteRow(scope.$index, form.favourableData)">
-                                    delete
-                                </el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                    <!--<el-button>取消</el-button>-->
-                </el-form-item>
-            </el-form>
-        </el-col>
-    </el-row>
+          </el-dialog>
+          <el-table
+              :data="form.activities"
+              :stripe="true"
+              border
+              style="width: 100%">
+            <el-table-column
+                prop="icon_name"
+                label="活动标题"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="name"
+                label="活动名称"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="description"
+                label="活动详情">
+            </el-table-column>
+            <el-table-column
+                fixed="right"
+                label="操作"
+                width="120">
+              <template slot-scope="scope">
+                <el-button
+                    type="danger"
+                    size="mini"
+                    icon="el-icon-delete"
+                    @click.native.prevent="deleteRow(scope.$index, form.activities)">
+                  delete
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <!--<el-button>取消</el-button>-->
+        </el-form-item>
+      </el-form>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -161,28 +171,31 @@
     data() {
       return {
         form: {
-          favourableData: [
+          latitude: '',
+          longitude: '',
+          activities: [
             {
-              activityTitle: '减',
-              activityName: '满减优惠',
-              activityDetails: '满30减5，满60减8'
+              icon_name: '减',
+              name: '满减优惠',
+              description: '满30减5，满60减8'
             }
           ],
-          HeadImageUrl: '',
+          float_minimum_order_amount: '',
+          image_path: '',
           name: '',
-          tel: '',
-          addr: '',
-          starttime: '',
-          endtime: '',
-          introduction: '',
-          slogan: '',
-          delivery: true, // dianputedian
-          newin: true,
-          fengniao: true,
-          waimaibao: true,
-          ontime: true,
-          bill: true,
-          DeliverFee: 3, // peisongfei
+          phone: '',
+          address: '',
+          startTime: '',
+          endTime: '',
+          description: '',
+          promotion_info: '',
+          is_premium: true, // dianputedian
+          new: true,
+          delivery_mode: true,
+          bao: true,
+          zhun: true,
+          piao: true,
+          float_delivery_fee: 3, // peisongfei
           foodOptions: [
             {
               value: 'kuaican',
@@ -207,7 +220,7 @@
               ]
             }
           ],
-          selectedOptions: [],
+          category: [],
           favourable: '',
           favourableOptions: [
             {
@@ -234,7 +247,7 @@
             {required: true, message: '请输入店铺名称', trigger: 'blur'},
             {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
           ],
-          tel: [
+          phone: [
             {required: true, message: '请输入联系电话', trigger: 'blur'},
             {
               validator(rule, value, callback, source, options) {
@@ -247,13 +260,14 @@
               }
             }
           ],
-          addr: [
+          address: [
             {required: true, message: '请输入详细地址', trigger: 'blur'}
           ]
         },
         dialogVisible: false,
         ad: '',
         addd: '',
+        guessLocation: '',
         restaurants: []
       }
     },
@@ -267,12 +281,22 @@
             return false
           }
         })
+        this.$http.jsonp(`http://api.map.baidu.com/geocoder/v2/?address=${this.form.address}&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`).then(
+          response => {
+            this.form.latitude = JSON.parse(response.bodyText).result.location.lat
+            this.form.longitude = JSON.parse(response.bodyText).result.location.lng
+          }
+        )
+        this.$http.post('https://elm.cangdu.org/shopping/addshop', this.form).then((response) => {
+          console.log(response)
+        })
       },
       handleChange(value) {
         console.log(value)
       },
       handleAvatarSuccess(res, file) {
-        this.form.HeadImageUrl = URL.createObjectURL(file.raw)
+        this.form.image_path = URL.createObjectURL(file.raw)
+        console.log(this.form.image_path)
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -290,30 +314,30 @@
         const activityObj = {}
         switch (this.ad) {
           case 'a':
-            activityObj.activityTitle = '减'
-            activityObj.activityName = '满减优惠'
+            activityObj.icon_name = '减'
+            activityObj.name = '满减优惠'
             break
           case 'b':
-            activityObj.activityTitle = '特'
-            activityObj.activityName = '优惠大酬宾'
+            activityObj.icon_name = '特'
+            activityObj.name = '优惠大酬宾'
             break
           case 'c':
-            activityObj.activityTitle = '新'
-            activityObj.activityName = '新用户立减'
+            activityObj.icon_name = '新'
+            activityObj.name = '新用户立减'
 
             break
           case 'd':
-            activityObj.activityTitle = '领'
-            activityObj.activityName = '进店领券'
+            activityObj.icon_name = '领'
+            activityObj.name = '进店领券'
 
             break
           default :
-            activityObj.activityTitle = '领'
-            activityObj.activityName = '进店领券'
+            activityObj.icon_name = '领'
+            activityObj.name = '进店领券'
             break
         }
-        activityObj.activityDetails = this.addd
-        this.form.favourableData.push(activityObj)
+        activityObj.description = this.addd
+        this.form.activities.push(activityObj)
         this.dialogVisible = false
         this.addd = ''
       },
@@ -324,62 +348,65 @@
       deleteRow(index, rows) {
         rows.splice(index, 1)
       },
-      getMap() {
-        this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.addr}&region=全国&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, { credentials: true })
-          .then((result) => {
-            console.log('ok')
-            this.restaurants = result.body.result
-          })
-      },
+      // getMap() {
+      //   this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.address}&region=全国&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, {credentials: true})
+      //     .then((result) => {
+      //       console.log('ok')
+      //       this.restaurants = result.body.result
+      //     })
+      // },
       querySearch(queryString, cb) {
-        var restaurants = [{}]
-        this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.addr}&region=哈尔滨&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, { credentials: true })
+        let restaurants = [{}]
+        this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.address}&region=${this.form.guessLocation}&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, {credentials: true})
           .then((results) => {
             for (const item of results.body.result) {
               item.value = item.name
             }
-            // console.log(result.body + 'qwe')
             restaurants = results.body.result
             cb(restaurants)
-            // console.log(restaurants)
           })
-        // var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
-        // cb(restaurants.result)
       },
       createFilter(queryString) {
         return (restaurant) => {
           return (restaurant.value.indexOf(queryString) !== -1)
         }
       }
+    },
+    beforeMount: function () {
+      this.$http.jsonp('https://restapi.amap.com/v3/ip?output=JSON&key=069dd664e64f4661aebb2b8082e99254').then(
+        result => {
+          this.form.guessLocation = result.body.city
+        }
+      )
     }
   }
 </script>
 
-<style scoped >
-    .avatar-uploader >>> .el-upload {
-        border: 1px dashed #b7dfc3;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
+<style scoped>
+  .avatar-uploader >>> .el-upload {
+    border: 1px dashed #b7dfc3;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .avatar-uploader .el-upload:hover {
-        border-color: #409eff;
-    }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
 
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
-        text-align: center;
-    }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
 
-    .avatar {
-        width: 178px;
-        height: 178px;
-        display: block;
-    }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

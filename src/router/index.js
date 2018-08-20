@@ -9,6 +9,7 @@ import order from '@/views/data/order'
 import admin from '@/views/data/admin'
 import shops from '@/views/add/shops'
 import commodity from '@/views/add/commodity'
+import userCity from '@/views/charts/userCity'
 
 Vue.use(Router)
 
@@ -45,8 +46,11 @@ export default new Router({
       path: '/data/admin',
       component: admin,
       meta: ['用户数据', 'admin列表']
-    },
-    {
+    }, {
+      path: '/charts/userCity',
+      component: userCity,
+      meta: ['图表', '用户分布']
+    }, {
       path: '/data',
       name: 'data',
       component: manage,
@@ -143,6 +147,25 @@ export default new Router({
       meta: {
         title: '添加数据',
         icon: 'plus'
+      }
+    },
+    {
+      path: '/charts',
+      name: 'charts',
+      children: [
+        {
+          path: 'userCity',
+          name: 'userCity',
+          component: userCity,
+          meta: {
+            title: '用户分布',
+            icon: ''
+          }
+        }
+      ],
+      meta: {
+        title: '图表',
+        icon: 'star-on'
       }
     }
   ]

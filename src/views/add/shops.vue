@@ -239,7 +239,11 @@
               value: 'd',
               label: '进店领券'
             }
-          ]
+          ],
+          userInfo: {
+            user_name: 'wdf',
+            password: '123'
+          }
 
         },
         rules: {
@@ -250,7 +254,7 @@
           phone: [
             {required: true, message: '请输入联系电话', trigger: 'blur'},
             {
-              validator(rule, value, callback, source, options) {
+              validator(rule, value, callback) {
                 var errors = []
                 if (!/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/.test(value)) {
                   errors.push(
@@ -278,6 +282,12 @@
             console.log('submit!')
           } else {
             console.log('error')
+            const h = this.$createElement
+            this.$notify.error({
+              title: '错误!',
+              message: h('i', { style: 'color: red'}, '请检查是否有错误!'),
+              offset: 100
+            })
             return false
           }
         })
@@ -324,7 +334,6 @@
           case 'c':
             activityObj.icon_name = '新'
             activityObj.name = '新用户立减'
-
             break
           case 'd':
             activityObj.icon_name = '领'
@@ -348,13 +357,6 @@
       deleteRow(index, rows) {
         rows.splice(index, 1)
       },
-      // getMap() {
-      //   this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.address}&region=全国&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, {credentials: true})
-      //     .then((result) => {
-      //       console.log('ok')
-      //       this.restaurants = result.body.result
-      //     })
-      // },
       querySearch(queryString, cb) {
         let restaurants = [{}]
         this.$http.jsonp(`http://api.map.baidu.com/place/v2/suggestion?query=${this.form.address}&region=${this.form.guessLocation}&city_limit=true&output=json&ak=zVhc39lBEh6Iz6RbOk3fRbVdPo4hxWGw`, {credentials: true})

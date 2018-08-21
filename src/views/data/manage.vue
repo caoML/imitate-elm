@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>数据统计</h1>
+    <button @click="clickme">click</button>
     <el-row :gutter="20">
       <el-col :span="3">
         <div class="grid-content today_head data-title">当日数据:</div>
@@ -19,7 +20,7 @@
       </el-col>
       <el-col :span="3">
         <div class="grid-content bg-purple">
-          <span>{{newin['admin']}}</span>
+          <span>{{newi['test']}}</span>
           <span>新增管理员</span>
         </div>
       </el-col>
@@ -59,21 +60,31 @@
           'order',
           'admin'
         ],
-        newin: []
+        newin: [],
+        customer: '',
+        order: '',
+        admin: '',
+        test: '123',
+        newi: {
+          test: ''
+        }
       }
     },
-    beforeMount: function () {
+    mounted: function () {
       const today = this.formatDate(new Date().getTime())
       this.requestlist.forEach((item) => {
         this.$http.get(`https://elm.cangdu.org/statis/${item}/${today}/count`).then(
           result => {
+            this.change()
             this.newin[item] = result.body.count
           }
         )
       })
-      console.log(this.newin)
     },
     methods: {
+      change() {
+        this.newi['test'] = '435345'
+      },
       formatDate(time) {
         var date = new Date(time)
 
@@ -84,6 +95,9 @@
           (month < 10 ? '0' + month : month) + '-' +
           (day < 10 ? '0' + day : day)
         return newTime
+      },
+      clickme() {
+        console.log(this.newin)
       }
     }
   }

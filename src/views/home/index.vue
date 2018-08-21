@@ -1,5 +1,4 @@
 <template>
-  <div id="app">
     <el-container>
           <el-aside width="200px">
             <sidebar class="left"></sidebar>
@@ -15,7 +14,6 @@
             </el-main>
           </el-container>
       </el-container>
-  </div>
 </template>
 
 <script>
@@ -28,44 +26,6 @@ export default {
   }
 }
 </script>
-<<<<<<< HEAD
 
-<style scoped>
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 260px;
-}
-
-.el-main {
-  color: #333;
-  line-height: 160px;
-}
-
-.el-container {
-  margin-bottom: 40px;
-}
-</style>
-=======
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-body {
-  padding: 0px;
-  margin: 0px;
-}
 </style>
->>>>>>> 4f20b88b5b67e21a3c2516b773cc8ffe39744724

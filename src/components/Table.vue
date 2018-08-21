@@ -84,14 +84,14 @@ export default {
     },
     async handleGet() {
       try {
-        // this.mapEntity('get')
         let table
-        await http[this.getterMethod()]().then(data => {
-          table = data.data.list
+        const params = this.mapEntity('get').params || ''
+        await http[this.getterMethod()](params).then(data => {
+          table = data.data.data || data.data
         }
         )
         this.tableData = table
-        this.infoKey = this.collapse && Object.keys(this.tableData[0])
+        this.infoKey = this.collapse && Object.keys(this.maps)
       } finally {
         this.loading = false
       }

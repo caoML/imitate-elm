@@ -23,23 +23,21 @@ export default {
     const tableInfo = {
       collapse: true,
       columns: [
-        {prop: 'foodName'},
-        {prop: 'desc'},
-        {prop: 'rate'}
+        {prop: 'name'},
+        {prop: 'description'},
+        {prop: 'rating'}
       ],
       maps: {
-        foodName: '食品名称',
-        foodId: '食品ID',
-        shopName: '餐馆名称',
-        shopId: '餐馆ID',
-        category: '食品类型',
-        address: '餐馆地址',
-        desc: '食品介绍',
-        rate: '食品评分',
-        number: '月销量'
+        name: '食品名称',
+        item_id: '食品ID',
+        pinyin_name: '餐馆名称',
+        restaurant_id: '餐馆ID',
+        description: '食品介绍',
+        rating: '食品评分',
+        month_sales: '月销量'
       },
       requests: [
-        {type: 'get', funcName: 'getFoodList'},
+        {type: 'get', funcName: 'getFoodList', params: {'restaurant_id': 1}},
         // {type: 'put', funcName: 'updateFood'},
         {type: 'delete', funcName: 'deleteFood'}
         // {type: 'post', funcName: 'addFood'}

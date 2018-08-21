@@ -1,20 +1,20 @@
 <template>
       <div class="menu-wrap" :style="{height:high}">
           <template v-for="item in routes" v-if="item.children">
-              <el-submenu :index="item.path">
-                <template slot="title">
-                  <i :class="'el-icon-'+item.meta.icon"></i>
-                  <!-- <svg-icon v-if="item&&item.meta.icon" :icon-class="item.meta.icon"></svg-icon> -->
-                  <span class="title" :index="item.path" v-if="item.meta&&item.meta.title" slot="title">{{item.meta.title}}</span>
-                </template>
-                <el-menu-item-group class="menu-main">
-                <template v-for="child in item.children" v-if="child.meta&&item.children">
-                    <el-menu-item :index="item.path+'/'+child.path">
-                      <span v-if="child.meta&&child.meta.title" class="title">{{child.meta.title}}</span>
-                    </el-menu-item>
-                </template>
-                </el-menu-item-group>
-              </el-submenu>
+                <el-submenu :index="item.path">
+                  <template slot="title">
+                    <i :class="'el-icon-'+item.meta.icon"></i>
+                    <!-- <svg-icon v-if="item&&item.meta.icon" :icon-class="item.meta.icon"></svg-icon> -->
+                    <span class="title" :index="item.path" v-if="item.meta&&item.meta.title" slot="title">{{item.meta.title}}</span>
+                  </template>
+                  <el-menu-item-group class="menu-main">
+                  <template v-for="child in item.children" v-if="child.meta&&item.children">
+                      <el-menu-item :index="item.path+'/'+child.path">
+                        <span v-if="child.meta&&child.meta.title" class="title">{{child.meta.title}}</span>
+                      </el-menu-item>
+                  </template>
+                  </el-menu-item-group>
+                </el-submenu>
           </template>
       </div>
 </template>

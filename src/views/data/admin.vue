@@ -12,19 +12,19 @@ export default {
     const tableInfo = {
       collapse: false,
       columns: [
-        {prop: 'name'},
-        {prop: 'date'},
-        {prop: 'address'},
-        {prop: 'promise'}
+        {prop: 'user_name'},
+        {prop: 'create_time'},
+        {prop: 'city'},
+        {prop: 'admin'}
       ],
       maps: {
-        name: '姓名',
-        date: '注册日期',
-        address: '地址',
-        promise: '权限'
+        user_name: '姓名',
+        create_time: '注册日期',
+        city: '地址',
+        admin: '权限'
       },
       requests: [
-        {type: 'get', funcName: 'getAdminList'}
+        {type: 'get', funcName: 'getAdminList', params: {offset: 0, limit: 20}}
       ]
     }
     return {

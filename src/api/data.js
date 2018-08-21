@@ -1,32 +1,37 @@
 import request from './request'
 export function getCustomerList(data) {
   return request({
-    url: '/customer',
-    method: 'get'
+    url: '/v1/users/list',
+    method: 'get',
+    data
   })
 }
-export function getAdminList(data) {
+export function getAdminList(params) {
   return request({
-    url: '/admin',
-    method: 'get'
+    url: 'admin/all',
+    method: 'get',
+    params
   })
 }
-export function getBussinessList(data) {
+export function getBussinessList(params) {
   return request({
-    url: '/bussiness',
-    method: 'get'
+    url: '/shopping/restaurants',
+    method: 'get',
+    params
   })
 }
-export function getFoodList(data) {
+export function getFoodList(params) {
   return request({
-    url: '/food',
-    method: 'get'
+    url: '/shopping/v2/foods',
+    method: 'get',
+    params
   })
 }
-export function getOrderList(data) {
+export function getOrderList(params) {
   return request({
-    url: '/order',
-    method: 'get'
+    url: '/bos/orders',
+    method: 'get',
+    params
   })
 }
 export function deleteFood(data) {
@@ -39,5 +44,19 @@ export function deleteBussiness(data) {
   return request({
     url: '/bussiness',
     method: 'delete'
+  })
+}
+export function login(data) {
+  return request({
+    url: '/admin/login',
+    method: 'post',
+    data
+  })
+}
+export function regist(data) {
+  return request({
+    url: '/regist',
+    method: 'post',
+    data
   })
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/views/home'
-import manage from '@/views/data/manage'
+// import manage from '@/views/data/manage'
 import customer from '@/views/data/customer'
 import bussiness from '@/views/data/bussiness'
 import food from '@/views/data/food'
@@ -9,7 +9,7 @@ import order from '@/views/data/order'
 import admin from '@/views/data/admin'
 import shops from '@/views/add/shops'
 import commodity from '@/views/add/commodity'
-// import HelloWorld from '@/components/HelloWorld'
+import login from '@/login'
 
 Vue.use(Router)
 
@@ -17,104 +17,68 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: manage
+      redirect: '/login'
     },
     {
-      path: '/data/bussiness',
-      name: 'bussiness',
-      component: bussiness,
-      meta: ['用户数据', '商家列表']
-    },
-    {
-      path: '/data/customer',
-      name: 'layout',
-      component: customer,
-      meta: ['用户数据', '用户列表']
-    },
-    {
-      path: '/data/food',
-      component: food,
-      meta: ['用户数据', '食品列表']
-    },
-    {
-      path: '/data/order',
-      component: order,
-      meta: ['用户数据', '订单列表']
-    },
-    {
-      path: '/data/admin',
-      component: admin,
-      meta: ['用户数据', 'admin列表']
+      path: '/login',
+      component: login
     },
     {
       path: '/data',
-      name: 'data',
-      component: manage,
+      component: home,
       children: [
         {
-          path: '',
-          name: 'home',
-          component: home
-        },
-        {
           path: 'customer',
-          // name: 'customer',
           component: customer,
           meta: {
             title: '用户列表',
-            icon: 'eye'
+            bread: ['用户数据', '用户列表']
           }
         },
         {
           path: 'bussiness',
-          name: 'bussiness',
           component: bussiness,
           meta: {
             title: '商家列表',
-            icon: 'eyes'
+            bread: ['用户数据', '商家列表']
           }
         },
         {
           path: 'food',
-          name: 'food',
           component: food,
           meta: {
             title: '食品列表',
-            icon: 'eyes'
+            bread: ['用户数据', '食品列表']
           }
         },
         {
           path: 'order',
-          name: 'order',
           component: order,
           meta: {
             title: '订单列表',
-            icon: 'eyes'
+            bread: ['用户数据', '订单列表']
           }
         },
         {
           path: 'admin',
-          name: 'admin',
           component: admin,
           meta: {
             title: '管理员列表',
-            icon: 'eyes'
+            bread: ['用户数据', '管理员列表']
           }
         }
       ],
       meta: {
-        icon: 'document',
-        title: '用户数据'
+        title: '用户数据',
+        icon: 'document'
       }
     },
     {
       path: '/add',
-      name: 'add',
+      component: home,
       children: [
         {
           path: 'shops',
-          name: 'shops',
           component: shops,
           meta: {
             title: 'custom',
@@ -123,7 +87,6 @@ export default new Router({
         },
         {
           path: 'commodity',
-          name: 'commodity',
           component: commodity,
           meta: {
             title: 'custom',

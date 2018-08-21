@@ -2,7 +2,7 @@
     <div>
         <el-menu
           mode="vertical"
-          :router="true"
+          router
           :show-timeout="200"
           :default-active="$route.path"
           class="el-menu-vertical-demo"

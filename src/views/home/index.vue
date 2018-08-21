@@ -1,9 +1,9 @@
 <template>
-    <el-container>
+    <el-container class="main">
           <el-aside width="200px">
             <sidebar class="left"></sidebar>
           </el-aside>
-          <el-container>
+          <el-container :style="{height:high}">
             <el-header>
               <my-header></my-header>
             </el-header>
@@ -17,15 +17,21 @@
 </template>
 
 <script>
+const high = document.documentElement.clientHeight + 'px'
 import Sidebar from '@/views/layout'
 import MyHeader from '@/components/Header'
 export default {
   components: {
     Sidebar,
     MyHeader
+  },
+  data() {
+    return {
+      high
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 </style>

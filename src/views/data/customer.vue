@@ -13,14 +13,14 @@ export default {
     const tableInfo = {
       collapse: false,
       columns: [
-        {prop: 'name'},
-        {prop: 'address'},
-        {prop: 'date'}
+        {prop: 'username'},
+        {prop: 'city'},
+        {prop: 'registe_time'}
       ],
       maps: {
-        name: '店铺名称',
-        address: '店铺地址',
-        date: '店铺成立日期'
+        username: '用户姓名',
+        city: '注册地址',
+        registe_time: '注册日期'
       },
       requests: [
         {type: 'get', funcName: 'getCustomerList'}

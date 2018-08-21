@@ -117,7 +117,7 @@ export default new Router({
       meta: ['添加数据', '添加店铺']
     },
     {
-      path: '/add/commodity',
+      path: '/add/commodity/',
       component: commodity,
       meta: ['添加数据', '添加商品']
     },

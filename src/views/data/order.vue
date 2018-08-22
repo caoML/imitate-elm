@@ -26,6 +26,10 @@ export default {
         // storeAddress: '店铺地址',
         // address: '收货地址'
       },
+      requestNum: {
+        funcName: 'getOrderNumber',
+        params: {'restaurant_id': 1}
+      },
       requests: [
         {type: 'get', funcName: 'getOrderList', params: {offset: 0, limit: 20}}
       ]

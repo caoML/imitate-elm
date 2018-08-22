@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/views/home'
-// import manage from '@/views/data/manage'
+import manage from '@/views/data/manage'
 import customer from '@/views/data/customer'
 import bussiness from '@/views/data/bussiness'
 import food from '@/views/data/food'
@@ -10,6 +10,8 @@ import admin from '@/views/data/admin'
 import shops from '@/views/add/shops'
 import commodity from '@/views/add/commodity'
 import login from '@/login'
+import userCity from '@/views/charts/userCity'
+import explain from '@/views/explain'
 
 Vue.use(Router)
 
@@ -27,6 +29,10 @@ export default new Router({
       path: '/data',
       component: home,
       children: [
+        {
+          path: '',
+          component: manage
+        },
         {
           path: 'customer',
           component: customer,
@@ -81,22 +87,61 @@ export default new Router({
           path: 'shops',
           component: shops,
           meta: {
-            title: 'custom',
-            icon: 'eyes'
+            title: '添加商铺',
+            bread: ['添加数据', '添加商铺']
           }
         },
         {
           path: 'commodity',
           component: commodity,
           meta: {
-            title: 'custom',
-            icon: 'eyes'
+            title: '添加商品',
+            bread: ['添加数据', '添加商品']
           }
         }
       ],
       meta: {
         title: '添加数据',
         icon: 'plus'
+      }
+    },
+    {
+      path: '/charts',
+      name: 'charts',
+      component: home,
+      children: [
+        {
+          path: 'userCity',
+          name: 'userCity',
+          component: userCity,
+          meta: {
+            title: '用户分布',
+            bread: ['图表', '用户分布']
+          }
+        }
+      ],
+      meta: {
+        title: '图表',
+        icon: 'star-on'
+      }
+    },
+    {
+      path: '/explain',
+      component: home,
+      hidden: true,
+      children: [
+        {
+          path: 'content',
+          component: explain,
+          meta: {
+            title: '说明',
+            bread: ['说明', '说明']
+          }
+        }
+      ],
+      meta: {
+        title: '说明',
+        icon: 'warning'
       }
     }
   ]

@@ -25,7 +25,10 @@ export default {
       },
       requests: [
         {type: 'get', funcName: 'getAdminList', params: {offset: 0, limit: 20}}
-      ]
+      ],
+      requestNum: {
+        funcName: 'getAdminNumber'
+      }
     }
     return {
       tableInfo

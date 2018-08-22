@@ -1,9 +1,9 @@
 import request from './request'
-export function getCustomerList(data) {
+export function getCustomerList(params) {
   return request({
     url: '/v1/users/list',
     method: 'get',
-    data
+    params
   })
 }
 export function getAdminList(params) {
@@ -57,6 +57,41 @@ export function regist(data) {
   return request({
     url: '/regist',
     method: 'post',
+    data
+  })
+}
+export function getCustomerNumber(data) {
+  return request({
+    url: '/v1/users/count',
+    method: 'get',
+    data
+  })
+}
+export function getBussinessNumber(data) {
+  return request({
+    url: '/shopping/restaurants/count',
+    method: 'get',
+    data
+  })
+}
+export function getFoodNumber(params) {
+  return request({
+    url: 'shopping/v2/foods/count',
+    method: 'get',
+    params
+  })
+}
+export function getOrderNumber(params) {
+  return request({
+    url: 'shopping/v2/foods/count',
+    method: 'get',
+    params
+  })
+}
+export function getAdminNumber(data) {
+  return request({
+    url: 'admin/count',
+    method: 'get',
     data
   })
 }

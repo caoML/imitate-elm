@@ -24,7 +24,10 @@ export default {
       },
       requests: [
         {type: 'get', funcName: 'getCustomerList'}
-      ]
+      ],
+      requestNum: {
+        funcName: 'getCustomerNumber'
+      }
     }
     return {
       tableInfo

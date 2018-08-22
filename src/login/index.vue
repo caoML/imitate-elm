@@ -14,6 +14,13 @@
                     登录
                 </el-button>
             </el-form-item>
+            <p style="text-align:center"><span class="tips">温馨提示：
+
+            未登录过的新用户，自动注册
+
+            注册过的用户可凭账号密码登录
+            </span>
+            </p>
         </el-form>
     </div>
 </template>
@@ -47,11 +54,15 @@ export default {
           // })
           http.login(this.loginForm).then(response => {
             const data = response.data
-            console.log(data.status)
             if (data.status === 1) {
               this.$message.success('登陆成功')
               this.$router.push({path: '/data'})
+            } else {
+              this.$message.error(`${data.message}`)
+              this.loading = false
             }
+          }).catch(() => {
+            return
           })
         } else {
           return false
@@ -102,5 +113,12 @@ export default {
   padding: 12px 5px 12px 15px;
   color: #eee;
   height: 47px;
+}
+.login-container >>> .tips {
+  margin: auto 0;
+  display: inline-block;
+  color: red;
+  width: 50%;
+  text-align: center;
 }
 </style>

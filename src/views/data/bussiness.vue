@@ -40,8 +40,12 @@ export default {
         // {type: 'post', funcName: 'addFood'},
         {type: 'delete', funcName: 'deleteBussiness'}
       ],
+      requestNum: {
+        funcName: 'getBussinessNumber'
+      },
       operations: [
-        {name: '编辑', func: this.updateBussiness}
+        {name: '编辑', func: this.updateBussiness},
+        {name: '添加商品', func: this.addBussiness}
       ]
     }
     return {
@@ -53,6 +57,9 @@ export default {
     updateBussiness(index, item) {
       this.editDialog = true
       this.editInfo = item
+    },
+    addBussiness(index, item) {
+      this.$router.push(`/add/commodity?restaurant_id=${item.id}`)
     }
   }
 }

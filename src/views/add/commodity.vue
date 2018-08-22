@@ -1,14 +1,14 @@
 <template>
   <div>
+    <div @click="show">click</div>
     <el-dialog
         title="提示"
-        :visible.sync="!$route.params.id"
+        :visible.sync='dialogVisible1'
         width="30%">
       <span>请先选择店铺</span>
       <span slot="footer" class="dialog-footer">
-    <!--<el-button @click="dialogVisible1 = $route.params.id">取 消</el-button>-->
-    <el-button type="primary" @click="selectShop">确 定</el-button>
-  </span>
+        <el-button type="primary" @click="selectShop">确 定</el-button>
+      </span>
     </el-dialog>
     <el-row :gutter="20">
       <el-col :span="14" :offset="4">
@@ -197,11 +197,22 @@
         ],
         flag: true,
         dialogVisible: false,
-        dialogVisible1: true
+        dialogVisible2: true
 
       }
     },
+    computed: {
+      dialogVisible1() {
+        return this.$route.fullPath.indexOf('?') === -1 && this.$route.fullPath.indexOf('commodity') !== -1
+      }
+    },
+    mounted() {
+      this.dialogVisible2 = this.show()
+    },
     methods: {
+      show() {
+        return this.$route.fullPath.indexOf('?') === -1
+      },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
         const isLt2M = file.size / 1024 / 1024 < 2
@@ -229,16 +240,24 @@
       onSubmit() {
         this.$refs['form'].validate(valid => {
           if (valid) {
-            console.log('submit!')
+            this.$message({
+              message: '创建成功!',
+              type: 'success'
+            })
+            this.$refs['form'].resetFields()
           } else {
-            console.log('error')
+            const h = this.$createElement
+            this.$notify.error({
+              title: '错误!',
+              message: h('i', { style: 'color: red'}, '请检查是否有错误!'),
+              offset: 100
+            })
             return false
           }
         })
       },
       selectShop() {
         this.$router.push({path: '/data/bussiness'})
-        // this.dialogVisible1 = false
       }
     }
   }

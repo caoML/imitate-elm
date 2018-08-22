@@ -42,6 +42,10 @@ export default {
         {type: 'delete', funcName: 'deleteFood'}
         // {type: 'post', funcName: 'addFood'}
       ],
+      requestNum: {
+        funcName: 'getFoodNumber',
+        params: {'restaurant_id': 1}
+      },
       operations: [
         {name: '编辑', func: this.updateFood}
       ]

@@ -1,5 +1,5 @@
 <template>
-    <div ref="main" style="height: 500px;">
+    <div :loading="loading" element-loading-text="拼命加载中" ref="main" style="height: 500px;">
         <h1>用户分布表</h1>
     </div>
 </template>
@@ -18,7 +18,8 @@
             data: [
             ]
           }
-        ]
+        ],
+        loading: true
       }
     },
     methods: {
@@ -43,6 +44,7 @@
             },
             series: this.series
           })
+          this.loading = false
         }
       )
     }
@@ -50,5 +52,4 @@
 </script>
 
 <style scoped>
-
 </style>

@@ -24,7 +24,17 @@
           <el-button size="mini" v-if="deleteMethod()" type="danger" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </el-table>   
+    </el-table>
+    <div class="page">
+      <span class="all_number">共{{number}}条数据</span>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @current-change="handleChange"
+        :page-size="20"
+        :total="number">
+      </el-pagination>
+    </div> 
   </div>
 </template>
 
@@ -39,21 +49,11 @@ export default {
       ...this.tableInfo,
       infoKey: [],
       tableData: [],
-      loading: true
+      loading: true,
+      number: 0,
+      totalNumber: 73
     }
   },
-  // compouted: {
-  //   editMethod() {
-  //     console.log('!!')
-  //     return this.mapName('put')
-  //   },
-  //   addMethod() {
-  //     return this.mapName('post')
-  //   },
-  //   deleteMethod() {
-  //     return this.mapName('delete')
-  //   }
-  // },
   methods: {
     indexMethod(index) {
       return index + 1
@@ -82,10 +82,13 @@ export default {
     deleteMethod() {
       return this.mapName('delete')
     },
-    async handleGet() {
+    async handleGet(param = null) {
       try {
         let table
-        const params = this.mapEntity('get').params || ''
+        const params = param || this.mapEntity('get').params
+        if (params) {
+          this.$route.meta.params = params
+        }
         await http[this.getterMethod()](params).then(data => {
           table = data.data.data || data.data
         }
@@ -112,10 +115,25 @@ export default {
     },
     hasOpColumn() {
       return (this.operations && this.operations.length > 0) || this.addMethod() || this.deleteMethod() || this.editMethod()
+    },
+    async getNumber() {
+      const params = this.requestNum.params || ''
+      await http[this.requestNum.funcName](params).then(res => {
+        this.number = res.data.count
+      })
+    },
+    handleChange(val) {
+      const params = this.$route.meta.params || {}
+      const num = (val - 1) * 20
+      const obj = Object.assign(params, {offset: num, limit: 20})
+      console.log(obj)
+      this.loading = true
+      this.handleGet(obj)
     }
   },
   mounted() {
     this.handleGet()
+    this.getNumber()
   }
 }
 </script>
@@ -142,5 +160,15 @@ export default {
 }
 .ops {
   display: inline-block;
+}
+.page {
+  margin: 15px 0;
+}
+.page >>> .all_number {
+  font-size: 13px;
+}
+.page >>> .el-pagination {
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>

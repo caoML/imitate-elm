@@ -1,71 +1,31 @@
 <template>
-  <div id="app">
-    <el-container>
-          <el-aside width="200px">
-            <sidebar class="left"></sidebar>
-          </el-aside>
-          <el-container>
-            <el-header>
-              <my-header></my-header>
-            </el-header>
-            <el-main>
-              <keep-alive>
-                <router-view></router-view>  
-              </keep-alive>  
-            </el-main>
-          </el-container>
-      </el-container>
+  <div id="app" :style="{height:high}">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Sidebar from '@/views/layout'
-import MyHeader from '@/components/Header'
+// import Sidebar from '@/views/layout'
+// import MyHeader from '@/components/Header'
+const high = document.documentElement.clientHeight + 'px'
 export default {
-  components: {
-    Sidebar,
-    MyHeader
+  data() {
+    return {
+      high
+    }
   }
 }
 </script>
-<<<<<<< HEAD
-
-<style scoped>
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 260px;
-}
-
-.el-main {
-  color: #333;
-  line-height: 160px;
-}
-
-.el-container {
-  margin-bottom: 40px;
-}
-</style>
-=======
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  overflow: auto;
 }
 body {
   padding: 0px;
   margin: 0px;
 }
 </style>
->>>>>>> 4f20b88b5b67e21a3c2516b773cc8ffe39744724

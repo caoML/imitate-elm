@@ -10,8 +10,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      // '/api': {
+      //   target: 'http://rap2api.taobao.org/app/mock/24665',
+      //   pathRewrite: { '^/api': '' },
+      //   changeOrigin: true
+      // }
       '/api': {
-        target: 'http://rap2api.taobao.org/app/mock/24665',
+        target: 'https://elm.cangdu.org',
+        secure: false,
         pathRewrite: { '^/api': '' },
         changeOrigin: true
       }

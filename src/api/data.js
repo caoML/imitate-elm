@@ -53,6 +53,13 @@ export function login(data) {
     data
   })
 }
+export function logout(data) {
+  return request({
+    url: '/admin/singout',
+    method: 'get',
+    data
+  })
+}
 export function regist(data) {
   return request({
     url: '/regist',

@@ -30,19 +30,19 @@
       </el-col>
       <el-col :span="3">
         <div class="grid-content bg-purple">
-          <span>{{}}</span>
+          <span>{{allData[0]}}</span>
           <span>注册用户</span>
         </div>
       </el-col>
       <el-col :span="3">
         <div class="grid-content bg-purple">
-          <span>{{}}</span>
+          <span>{{allData[1]}}</span>
           <span>订单</span>
         </div>
       </el-col>
       <el-col :span="3">
         <div class="grid-content bg-purple">
-          <span>{{}}</span>
+          <span>{{allData[2]}}</span>
           <span>管理员</span>
         </div>
       </el-col>
@@ -53,6 +53,7 @@
 
 <script>
   import echarts from 'echarts'
+
   export default {
     data() {
       return {
@@ -61,14 +62,16 @@
           'order',
           'admin'
         ],
-        newin: [],
-        customer: '',
-        order: '',
+        newin: {user: '', order: '', admin: ''},
+        allData: ['', '', ''],
+        user: '',
         admin: '',
-        test: '123',
-        newi: {
-          test: ''
-        }
+        order: '',
+        all: [
+          'v1/users',
+          'bos/orders',
+          'admin'
+        ]
       }
     },
     mounted: function () {
@@ -76,17 +79,26 @@
       this.requestlist.forEach((item) => {
         this.$http.get(`https://elm.cangdu.org/statis/${item}/${today}/count`).then(
           result => {
-            this.change()
             this.newin[item] = result.body.count
           }
         )
       })
+      var i = 0
+      var _this = this
+      this.all.forEach((item) => {
+        (function (i) {
+          _this.$http.get(`https://elm.cangdu.org/${item}/count`).then(
+            result => {
+              _this.allData[i] = result.body.count
+            }
+          )
+        })(i)
+        i++
+      })
+
       this.initCharts()
     },
     methods: {
-      change() {
-        this.newi['test'] = '435345'
-      },
       formatDate(time) {
         var date = new Date(time)
 

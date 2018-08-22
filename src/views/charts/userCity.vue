@@ -34,7 +34,6 @@
           this.series[0].data.push({value: cities.shenzhen, name: '深圳'})
           this.series[0].data.push({value: cities.hangzhou, name: '杭州'})
           this.series[0].data.push({value: cities.qita, name: '其他'})
-          console.log(this.series)
           var myChart = echarts.init(this.$refs.main)
           myChart.setOption({
             legend: {

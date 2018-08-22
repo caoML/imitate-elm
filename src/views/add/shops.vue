@@ -279,9 +279,11 @@
       onSubmit() {
         this.$refs['form'].validate(valid => {
           if (valid) {
-            console.log('submit!')
+            this.$message({
+              message: '创建成功!',
+              type: 'success'
+            })
           } else {
-            console.log('error')
             const h = this.$createElement
             this.$notify.error({
               title: '错误!',
@@ -299,6 +301,7 @@
         )
         this.$http.post('https://elm.cangdu.org/shopping/addshop', this.form).then((response) => {
           console.log(response)
+          this.$refs['form'].resetFields()
         })
       },
       handleChange(value) {

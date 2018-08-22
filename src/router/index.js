@@ -14,7 +14,6 @@ import userCity from '@/views/charts/userCity'
 import explain from '@/views/explain'
 
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {

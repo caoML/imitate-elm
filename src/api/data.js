@@ -53,6 +53,13 @@ export function login(data) {
     data
   })
 }
+export function logout(data) {
+  return request({
+    url: '/admin/singout',
+    method: 'get',
+    data
+  })
+}
 export function regist(data) {
   return request({
     url: '/regist',
@@ -93,5 +100,23 @@ export function getAdminNumber(data) {
     url: 'admin/count',
     method: 'get',
     data
+  })
+}
+export function getNewAdminNumber(date) {
+  return request({
+    url: `statis/admin/${date}/count`,
+    method: 'get'
+  })
+}
+export function getNewOrderNumber(date) {
+  return request({
+    url: `statis/admin/${date}/count`,
+    method: 'get'
+  })
+}
+export function getNewCustomerNumber(date) {
+  return request({
+    url: `statis/user/${date}/count`,
+    method: 'get'
   })
 }

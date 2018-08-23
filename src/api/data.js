@@ -116,3 +116,21 @@ export function updateFood(data) {
     data
   })
 }
+export function getNewAdminNumber(date) {
+  return request({
+    url: `statis/admin/${date}/count`,
+    method: 'get'
+  })
+}
+export function getNewOrderNumber(date) {
+  return request({
+    url: `statis/admin/${date}/count`,
+    method: 'get'
+  })
+}
+export function getNewCustomerNumber(date) {
+  return request({
+    url: `statis/user/${date}/count`,
+    method: 'get'
+  })
+}

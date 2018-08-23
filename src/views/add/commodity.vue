@@ -7,7 +7,6 @@
         width="30%">
       <span>请先选择店铺</span>
       <span slot="footer" class="dialog-footer">
-        <!--<el-button @click="dialogVisible1 = $route.params.id">取 消</el-button>-->
         <el-button type="primary" @click="selectShop">确 定</el-button>
       </span>
     </el-dialog>
@@ -241,9 +240,18 @@
       onSubmit() {
         this.$refs['form'].validate(valid => {
           if (valid) {
-            console.log('submit!')
+            this.$message({
+              message: '创建成功!',
+              type: 'success'
+            })
+            this.$refs['form'].resetFields()
           } else {
-            console.log('error')
+            const h = this.$createElement
+            this.$notify.error({
+              title: '错误!',
+              message: h('i', { style: 'color: red'}, '请检查是否有错误!'),
+              offset: 100
+            })
             return false
           }
         })
@@ -256,18 +264,18 @@
 </script>
 
 <style scoped>
-header {
-  text-align: center;
-  height: 40px;
-  line-height: 40px;
-}
+  header {
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+  }
 
-.container {
-  border-radius: 5px;
-  border: 1px solid #eaeefb;
-  padding-top: 10px;
-  margin-bottom: 20px;
-}
+  .container {
+    border-radius: 5px;
+    border: 1px solid #eaeefb;
+    padding-top: 10px;
+    margin-bottom: 20px;
+  }
 
 .avatar-uploader >>> .el-upload {
   border: 1px dashed #b7dfc3;
@@ -277,18 +285,18 @@ header {
   overflow: hidden;
 }
 
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
 
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
 
 .avatar {
   width: 178px;

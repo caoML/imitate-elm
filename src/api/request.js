@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const server = axios.create({
-  baseURL: '/api',
+  baseURL: 'API_ROOT',
   timeout: 30000
 })
 // request interceptor

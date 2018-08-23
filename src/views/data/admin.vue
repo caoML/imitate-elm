@@ -1,13 +1,17 @@
 <template>
     <div>
-        <admin-table :tableInfo="tableInfo"></admin-table>
+        <el-card class="box-card">
+          <title-bar title="订单列表" subTitle="这里记录了一些订单信息"></title-bar>
+          <admin-table search="user_name" :tableInfo="tableInfo"></admin-table>
+        </el-card>
     </div>
 </template>
 
 <script>
 import AdminTable from '@/components/Table'
+import TitleBar from '@/components/TitleBar'
 export default {
-  components: {AdminTable},
+  components: {AdminTable, TitleBar},
   data() {
     const tableInfo = {
       collapse: false,
@@ -37,5 +41,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  overflow: visible;
+}
 </style>

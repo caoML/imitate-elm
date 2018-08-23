@@ -1,13 +1,18 @@
 <template>
     <div>
-        <order-table :tableInfo="tableInfo"></order-table>
+        <el-card class="box-card">
+          <title-bar title="订单列表" subTitle="这里记录了一些订单信息"></title-bar>
+          <order-table search="id" :tableInfo="tableInfo"></order-table>
+        </el-card>
     </div>
+    
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar'
 import OrderTable from '@/components/Table'
 export default {
-  components: {OrderTable},
+  components: {OrderTable, TitleBar},
   data() {
     const tableInfo = {
       collapse: true,
@@ -41,5 +46,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  overflow: visible;
+}
 </style>

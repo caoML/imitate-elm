@@ -34,18 +34,6 @@ export function getOrderList(params) {
     params
   })
 }
-export function deleteFood(data) {
-  return request({
-    url: '/food',
-    method: 'delete'
-  })
-}
-export function deleteBussiness(data) {
-  return request({
-    url: '/bussiness',
-    method: 'delete'
-  })
-}
 export function login(data) {
   return request({
     url: '/admin/login',
@@ -99,6 +87,32 @@ export function getAdminNumber(data) {
   return request({
     url: 'admin/count',
     method: 'get',
+    data
+  })
+}
+export function updateBussiness(data) {
+  return request({
+    url: 'shopping/updateshop',
+    method: 'post',
+    data
+  })
+}
+export function deleteBussiness(val) {
+  return request({
+    url: `shopping/restaurant/${val}`,
+    method: 'delete'
+  })
+}
+export function deleteFood(val) {
+  return request({
+    url: `shopping/v2/food/${val}`,
+    method: 'delete'
+  })
+}
+export function updateFood(data) {
+  return request({
+    url: '/shopping/v2/updatefood',
+    method: 'post',
     data
   })
 }

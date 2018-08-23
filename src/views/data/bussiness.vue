@@ -1,21 +1,26 @@
 <template>
 <div>
-    <bussiness :tableInfo="tableInfo" ></bussiness>
-    <el-dialog title="修改食品信息" :visible.sync="editDialog" v-if="editDialog">
-      <edit-bussiness :editInfo="editInfo"></edit-bussiness>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialog = false">取 消</el-button>
-        <el-button type="primary" @click="editDialog = false">确 定</el-button>
-      </div>
-    </el-dialog>
+    <el-card class="box-card">
+      <title-bar title="商家列表" subTitle="这里记录了一些商家信息"></title-bar>
+      <bussiness :tableInfo="tableInfo" search="name"></bussiness>
+      <el-dialog title="修改食品信息" :visible.sync="editDialog" v-if="editDialog">
+        <edit-bussiness :editInfo="editInfo"></edit-bussiness>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editDialog = false">取 消</el-button>
+          <el-button type="primary" @click="updateshop">确 定</el-button>
+        </div>
+      </el-dialog>
+    </el-card>
 </div>
 </template>
 
 <script>
 import Bussiness from '@/components/Table'
 import EditBussiness from './editBussiness'
+import TitleBar from '@/components/TitleBar'
+import http from '@/api'
 export default {
-  components: {Bussiness, EditBussiness},
+  components: {Bussiness, EditBussiness, TitleBar},
   data() {
     const tableInfo = {
       collapse: true,
@@ -60,10 +65,26 @@ export default {
     },
     addBussiness(index, item) {
       this.$router.push(`/add/commodity?restaurant_id=${item.id}`)
+    },
+    updateshop() {
+      http.updateBussiness(this.editInfo).then(res => {
+        const data = res.data
+        if (data.status === 1) {
+          this.$message.success('修改商铺信息成功')
+          this.editDialog = false
+        }
+        if (data.status === 0) {
+          this.$message.error('此店铺用做展示，请不要修改')
+          this.editDialog = false
+        }
+      })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  overflow: visible;
+}
 </style>

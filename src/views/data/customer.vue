@@ -1,14 +1,18 @@
 <template>
   <div>
-    <customer :tableInfo='tableInfo'></customer>
+    <el-card class="box-card">
+      <title-bar title="用户列表" subTitle="这里记录了一些用户信息"></title-bar>
+      <customer search="username" :tableInfo='tableInfo'></customer>
+    </el-card>
   </div>
 </template>
 
 <script>
 import Customer from '@/components/Table'
+import TitleBar from '@/components/TitleBar'
 // import http from '@/api'
 export default {
-  components: {Customer},
+  components: {Customer, TitleBar},
   data() {
     const tableInfo = {
       collapse: false,
@@ -33,22 +37,11 @@ export default {
       tableInfo
     }
   }
-  // methods: {
-  //   async fetchList() {
-  //     try {
-  //       await http.getCustomerList().then((res) => {
-  //         this.tableData = res.data.tableData
-  //       })
-  //     } catch (error) {
-  //       return
-  //     }
-  //   }
-  // },
-  // mounted() {
-  //   this.fetchList()
-  // }
 }
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  overflow: visible;
+}
 </style>

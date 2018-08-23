@@ -1,23 +1,29 @@
 <template>
     <div class="food">
-      <food-table :tableInfo="tableInfo"></food-table>
-      <el-dialog title="修改食品信息" :visible.sync="editDialog" v-if="editDialog">
-        <edit-food :editInfo="editInfo"></edit-food>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialog = false">取 消</el-button>
-          <el-button type="primary" @click="editDialog = false">确 定</el-button>
-        </div>
-      </el-dialog>
+      <el-card class="box-card">
+        <title-bar title="食品列表" subTitle="这里记录了一些食品信息"></title-bar>
+        <food-table search="name" :tableInfo="tableInfo"></food-table>
+        <el-dialog title="修改食品信息" :visible.sync="editDialog" v-if="editDialog">
+          <edit-food :editInfo="editInfo"></edit-food>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="editDialog = false">取 消</el-button>
+            <el-button type="primary" @click="subupdatefood">确 定</el-button>
+          </div>
+        </el-dialog>
+      </el-card>
     </div>
 </template>
 
 <script>
 import FoodTable from '@/components/Table'
 import EditFood from './editFood'
+import TitleBar from '@/components/TitleBar'
+import http from '@/api'
 export default {
   components: {
     FoodTable,
-    EditFood
+    EditFood,
+    TitleBar
   },
   data() {
     const tableInfo = {
@@ -60,6 +66,18 @@ export default {
     updateFood(index, item) {
       this.editDialog = true
       this.editInfo = item
+    },
+    subupdatefood() {
+      http.updateFood(this.editInfo).then(res => {
+        const data = res.data
+        if (data.status === 1) {
+          this.$message.success('修改食品信息成功')
+          this.editDialog = false
+        } else {
+          this.$message.error(`${data.message}`)
+          this.editDialog = false
+        }
+      })
     }
   }
 }
@@ -68,5 +86,8 @@ export default {
 <style scoped>
 .food >>> .dialog-footer {
   text-align: center;
+}
+.box-card {
+  overflow: visible;
 }
 </style>

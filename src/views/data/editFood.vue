@@ -1,12 +1,12 @@
 <template>
     <div class="edit-food">
         <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="食品名称"><el-input v-model="form.foodName"></el-input></el-form-item>
-            <el-form-item label="食品介绍"><el-input v-model="form.desc"></el-input></el-form-item>
-            <el-form-item label="食品分类">
+            <el-form-item label="食品名称"><el-input v-model="form.name"></el-input></el-form-item>
+            <el-form-item label="食品介绍"><el-input v-model="form.description"></el-input></el-form-item>
+            <!-- <el-form-item label="食品分类">
                 <el-select v-model="form.category" placeholder="请选择食品分类">
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="食品图片">
                 <el-upload
                     class="avatar-uploader"
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      imageUrl: '',
+      imageUrl: 'http://elm.cangdu.org/img/' + this.editInfo.image_path,
       form: this.editInfo
     }
   },

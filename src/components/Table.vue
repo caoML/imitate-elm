@@ -1,64 +1,78 @@
 <template>
-  <div>
-    <el-table v-loading="loading" element-loading-text="加载中..." v-if="!tableInfo.collapse" :data="tableData" style="width:100%">
-        <el-table-column label="序号" type="index" align="center" :index="indexMethod"></el-table-column>
-        <el-table-column align="center" v-for="item in tableInfo.columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
+  <div class="all">
+      <div class="search" >
+        <el-input v-model="searchData" prefix-icon="el-icon-search"></el-input>
+      </div>
+      <el-table v-loading="loading" element-loading-text="加载中..." v-if="!collapse" :data="tableData" style="width:100%">
+          <el-table-column label="序号" type="index" align="center" :index="indexMethod"></el-table-column>
+          <el-table-column align="center" v-for="item in columns" :key="item.prop" :label="getLabel(item.prop)" :prop="item.prop">
+          </el-table-column>
+      </el-table>
+      <el-table v-loading="loading" style="width:100%" element-loading-text="加载中..." v-else-if="collapse" :data="tableData">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item v-for="(item,index) in infoKey" :key="index" :label="getLabel(item)"><span>{{props.row[item]}}</span></el-form-item>
+            </el-form>
+          </template>
         </el-table-column>
-    </el-table>
-    <el-table v-loading="loading" element-loading-text="加载中..." v-else-if="tableInfo.collapse" :data="tableData">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item v-for="(item,index) in infoKey" :key="index" :label="getLabel(item)"><span>{{props.row[item]}}</span></el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" v-for="(item,index) in tableInfo.columns" :key="index" :label="getLabel(item.prop)" :prop="item.prop"></el-table-column>
-      <el-table-column align="center" v-if="editMethod()||addMethod()||deleteMethod()" label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" v-if="editMethod()">编辑</el-button>
-          <el-button size="mini" v-if="addMethod()">添加</el-button>
-          <el-button size="mini" v-if="deleteMethod()" type="danger">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>   
+        <el-table-column align="center" v-for="(item,index) in columns" :key="index" :label="getLabel(item.prop)" :prop="item.prop"></el-table-column>
+        <el-table-column align="center" v-if="hasOpColumn()" label="操作">
+          <template slot-scope="scope">
+            <div v-if="operations && operations.length>0" class="ops">
+              <el-button v-for="op in operations" :key="op.name" size="mini" @click="op.func(scope.$index,scope.row)">{{op.name}}</el-button>  
+            </div>
+            <el-button size="mini" v-if="editMethod()">编辑</el-button>
+            <el-button size="mini" v-if="addMethod()">添加</el-button>
+            <el-button size="mini" v-if="deleteMethod()" type="danger" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="page">
+        <span class="all_number">共{{number}}条数据</span>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="handleChange"
+          :page-size="20"
+          :total="number">
+        </el-pagination>
+      </div> 
   </div>
 </template>
 
 <script>
 import http from '@/api'
+import Search from '@/components/Search'
 export default {
+  components: {
+    Search
+  },
   props: {
-    tableInfo: Object
+    tableInfo: Object,
+    search: String
   },
   data() {
     return {
+      ...this.tableInfo,
       infoKey: [],
       tableData: [],
-      loading: true
+      copyTableData: [],
+      loading: true,
+      number: 0,
+      totalNumber: 0,
+      searchData: ''
     }
   },
-  // compouted: {
-  //   editMethod() {
-  //     console.log('!!')
-  //     return this.mapName('put')
-  //   },
-  //   addMethod() {
-  //     return this.mapName('post')
-  //   },
-  //   deleteMethod() {
-  //     return this.mapName('delete')
-  //   }
-  // },
   methods: {
     indexMethod(index) {
       return index + 1
     },
     getLabel(item) {
-      return this.tableInfo.maps[item]
+      return this.maps[item]
     },
     mapEntity(type) {
-      return this.tableInfo.requests.find(request =>
+      return this.requests.find(request =>
         request.type === type
       )
     },
@@ -70,7 +84,6 @@ export default {
       return this.mapName('get')
     },
     editMethod() {
-      console.log(this.mapName('put'))
       return this.mapName('put')
     },
     addMethod() {
@@ -79,28 +92,82 @@ export default {
     deleteMethod() {
       return this.mapName('delete')
     },
-    async handleGet() {
+    async handleGet(param = null) {
       try {
-        // this.mapEntity('get')
         let table
-        await http[this.getterMethod()]().then(data => {
-          table = data.data.list
+        const params = param || this.mapEntity('get').params
+        if (params) {
+          this.$route.meta.params = params
+        }
+        await http[this.getterMethod()](params).then(data => {
+          table = data.data.data || data.data
         }
         )
         this.tableData = table
-        this.infoKey = this.tableInfo.collapse && Object.keys(this.tableData[0])
+        this.infoKey = this.collapse && Object.keys(this.maps)
       } finally {
         this.loading = false
       }
+    },
+    async handleDelete(index, item) {
+      try {
+        await this.$confirm('将永久删除该条目,是否继续', '提示', {
+          type: 'warning',
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        })
+        await http[this.deleteMethod()](item.id).then(res => {
+          const data = res.data
+          if (data.status === 1) {
+            this.tableData = this.tableData.filter((_, i) => i !== index)
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error(`${data.message}`)
+          }
+        })
+      } catch (error) {
+        return
+      }
+    },
+    hasOpColumn() {
+      return (this.operations && this.operations.length > 0) || this.addMethod() || this.deleteMethod() || this.editMethod()
+    },
+    async getNumber() {
+      const params = this.requestNum.params || ''
+      await http[this.requestNum.funcName](params).then(res => {
+        this.number = res.data.count
+      })
+    },
+    handleChange(val) {
+      const params = this.$route.meta.params || {}
+      const num = (val - 1) * 20
+      const obj = Object.assign(params, {offset: num, limit: 20})
+      console.log(obj)
+      this.loading = true
+      this.handleGet(obj)
     }
   },
   mounted() {
     this.handleGet()
+    this.getNumber()
+  },
+  watch: {
+    searchData(val) {
+      if (this.copyTableData.length === 0) {
+        this.copyTableData = this.tableData
+      }
+      this.tableData = this.copyTableData.filter(item => {
+        return item[this.search].indexOf(val) > -1
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
+.all >>> .el-table__expanded-cell {
+  box-shadow: inset 0 2px 0 #f4f4f4;
+}
 .demo-table-expand {
   font-size: 0;
 }
@@ -112,5 +179,26 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+  text-align: left;
+}
+.el-form-item__label {
+  text-align: left;
+}
+.ops {
+  display: inline-block;
+}
+.page {
+  margin: 15px 0;
+}
+.page >>> .all_number {
+  font-size: 13px;
+}
+.page >>> .el-pagination {
+  display: inline-block;
+  vertical-align: middle;
+}
+.search {
+  max-width: 350px;
+  margin-top: 10px;
 }
 </style>

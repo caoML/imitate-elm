@@ -10,15 +10,21 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
     proxyTable: {
+      // '/api': {
+      //   target: 'http://rap2api.taobao.org/app/mock/24665',
+      //   pathRewrite: { '^/api': '' },
+      //   changeOrigin: true
+      // }
       '/api': {
-        target: 'http://rap2api.taobao.org/app/mock/24665',
+        target: 'https://elm.cangdu.org',
+        secure: false,
         pathRewrite: { '^/api': '' },
         changeOrigin: true
       }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8083, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8084, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,

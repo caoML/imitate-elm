@@ -1,31 +1,38 @@
 <template>
     <div>
-        <admin-table :tableInfo="tableInfo"></admin-table>
+        <el-card class="box-card">
+          <title-bar title="订单列表" subTitle="这里记录了一些订单信息"></title-bar>
+          <admin-table search="user_name" :tableInfo="tableInfo"></admin-table>
+        </el-card>
     </div>
 </template>
 
 <script>
 import AdminTable from '@/components/Table'
+import TitleBar from '@/components/TitleBar'
 export default {
-  components: {AdminTable},
+  components: {AdminTable, TitleBar},
   data() {
     const tableInfo = {
       collapse: false,
       columns: [
-        {prop: 'name'},
-        {prop: 'date'},
-        {prop: 'address'},
-        {prop: 'promise'}
+        {prop: 'user_name'},
+        {prop: 'create_time'},
+        {prop: 'city'},
+        {prop: 'admin'}
       ],
       maps: {
-        name: '姓名',
-        date: '注册日期',
-        address: '地址',
-        promise: '权限'
+        user_name: '姓名',
+        create_time: '注册日期',
+        city: '地址',
+        admin: '权限'
       },
       requests: [
-        {type: 'get', funcName: 'getAdminList'}
-      ]
+        {type: 'get', funcName: 'getAdminList', params: {offset: 0, limit: 20}}
+      ],
+      requestNum: {
+        funcName: 'getAdminNumber'
+      }
     }
     return {
       tableInfo
@@ -34,5 +41,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.box-card {
+  overflow: visible;
+}
 </style>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const server = axios.create({
-  baseURL: 'API_ROOT',
+  baseURL: 'https://elm.cangdu.org/',
   timeout: 30000
 })
 // request interceptor
